@@ -1,0 +1,21 @@
+hdfs dfs -mkdir tmp/project;
+hdfs dfs -mkdir tmp/project/tables;
+
+CREATE EXTERNAL TABLE IF NOT Exists project(
+json_responce STRING)
+STORED AS TEXTFILE
+LOCATION "/tmp/project/tables";
+
+CREATE TABLE IF NOT EXISTS project(
+  id BIGINT, 
+  loan_amnt BIGINT,
+  home_ownership STRING,
+  issue_d STRING,
+  loan_status STRING,
+  purpose STRING,
+  addr_state STRING);
+
+INSERT OVERWRITE TABLE project
+SELECT id, loan_amnt, home_ownership, issue_d, loan_status, purpose, addr_state
+FROM credit_card_dataset_CSV.csv
+WHERE id = id
